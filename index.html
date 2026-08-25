@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Configurações básicas da página -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Conexão antecipada com servidores de fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Importação da fonte Roboto Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <!-- Arquivo de estilos CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <title>Controle de Gastos</title>
+</head>
+
+<body>
+    <!-- Container principal da aplicação -->
+    <main class="container">
+        <!-- Cabeçalho -->
+        <header class="header">
+            <h1>Controle de gastos</h1>
+            <p>Cadastre entradas e saídas, acompanhe seu saldo e filtre os lançamentos.</p>
+        </header>
+
+        <!-- Seção de resumo financeiro -->
+        <section class="stats" aria-label="Resumo financeiro">
+            <!-- Total de receitas -->
+            <div class="card">
+                <span class="number green" id="incomeTotal">R$ 0,00</span>
+                <span class="label">Receitas</span>
+            </div>
+
+            <!-- Total de despesas -->
+            <div class="card">
+                <span class="number orange" id="expenseTotal">R$ 0,00</span>
+                <span class="label">Despesas</span>
+            </div>
+
+            <!-- Saldo atual -->
+            <div class="card">
+                <span class="number blue" id="balanceTotal">R$ 0,00</span>
+                <span class="label">Saldo</span>
+            </div>
+        </section>
+
+        <!-- Área para cadastrar novo lançamento -->
+        <section class="expense-panel">
+            <form class="expense-form" id="transactionForm">
+                <!-- Descrição do lançamento -->
+                <div class="field field-full">
+                    <label for="description">Descrição</label>
+                    <input
+                        id="description"
+                        type="text"
+                        placeholder="Ex: mercado, salário, transporte..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <!-- Valor do lançamento -->
+                <div class="field">
+                    <label for="amount">Valor</label>
+                    <input
+                        id="amount"
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="0,00"
+                    >
+                </div>
+
+                <!-- Tipo do lançamento -->
+                <div class="field">
+                    <label for="type">Tipo</label>
+                    <select id="type">
+                        <option value="despesa">Despesa</option>
+                        <option value="receita">Receita</option>
+                    </select>
+                </div>
+
+                <!-- Categoria do lançamento -->
+                <div class="field">
+                    <label for="category">Categoria</label>
+                    <select id="category">
+                        <option value="Alimentação">Alimentação</option>
+                        <option value="Moradia">Moradia</option>
+                        <option value="Transporte">Transporte</option>
+                        <option value="Estudos">Estudos</option>
+                        <option value="Lazer">Lazer</option>
+                        <option value="Trabalho">Trabalho</option>
+                        <option value="Saúde">Saúde</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+
+                <!-- Data do lançamento -->
+                <div class="field">
+                    <label for="date">Data</label>
+                    <input id="date" type="date">
+                </div>
+
+                <!-- Botão de cadastro -->
+                <button class="btn-add btn-submit" type="submit">
+                    + Lançar
+                </button>
+            </form>
+
+            <p class="form-message" id="formMessage" aria-live="polite"></p>
+        </section>
+
+        <!-- Filtros de visualização dos lançamentos -->
+        <section class="toolbar">
+            <div class="filters">
+                <!-- Mostrar todos -->
+                <button class="filter active" data-filter="todos">
+                    Todos
+                </button>
+
+                <!-- Mostrar apenas receitas -->
+                <button class="filter" data-filter="receitas">
+                    Receitas
+                </button>
+
+                <!-- Mostrar apenas despesas -->
+                <button class="filter" data-filter="despesas">
+                    Despesas
+                </button>
+            </div>
+
+            <!-- Botão para limpar dados salvos -->
+            <button class="btn-clear" id="clearAll" type="button">
+                Limpar tudo
+            </button>
+        </section>
+
+        <!-- Cabeçalho da lista -->
+        <section class="list-heading">
+            <h2>Lançamentos</h2>
+            <span id="transactionCount">0 itens</span>
+        </section>
+
+        <!-- Lista de lançamentos -->
+        <section class="tasks" id="transactionsList" aria-live="polite"></section>
+
+        <!-- Estado vazio -->
+        <p class="empty-state" id="emptyState">
+            Nenhum lançamento encontrado.
+        </p>
+    </main>
+
+    <!-- Arquivo JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
