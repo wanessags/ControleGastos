@@ -1,159 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <!-- Configurações básicas da página -->
+    <!-- Configuracoes basicas da pagina e suporte para responsividade. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Conexão antecipada com servidores de fontes -->
+    <!-- Conexao antecipada com o Google Fonts para melhorar o carregamento das fontes. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Importação da fonte Roboto Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <!-- Fontes escolhidas para misturar clima retrô no titulo e boa leitura no restante da interface. -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
-    <!-- Arquivo de estilos CSS -->
+    <!-- Arquivo principal de estilos. -->
     <link rel="stylesheet" href="style.css">
 
-    <title>Controle de Gastos</title>
+    <!-- Titulo exibido na aba do navegador. -->
+    <title>Hawkins Finance | Controle de Gastos</title>
 </head>
 
 <body>
-    <!-- Container principal da aplicação -->
-    <main class="container">
-        <!-- Cabeçalho -->
-        <header class="header">
-            <h1>Controle de gastos</h1>
-            <p>Cadastre entradas e saídas, acompanhe seu saldo e filtre os lançamentos.</p>
-        </header>
+    <!-- Conteudo principal da aplicacao. -->
+    <main class="app">
 
-        <!-- Seção de resumo financeiro -->
-        <section class="stats" aria-label="Resumo financeiro">
-            <!-- Total de receitas -->
-            <div class="card">
-                <span class="number green" id="incomeTotal">R$ 0,00</span>
-                <span class="label">Receitas</span>
+        <!-- Topo visual inspirado em uma parede retrô com luzes. -->
+        <section class="hero-board" aria-labelledby="appTitle">
+
+            <!-- Texto principal da identidade do projeto. -->
+            <div class="hero-copy">
+                <span class="eyebrow">Controle pessoal</span>
+                <h1 id="appTitle">Hawkins Finance</h1>
+                <p>Registre entradas e saídas, acompanhe o saldo e descubra para onde seu dinheiro está indo.</p>
             </div>
 
-            <!-- Total de despesas -->
-            <div class="card">
-                <span class="number orange" id="expenseTotal">R$ 0,00</span>
-                <span class="label">Despesas</span>
-            </div>
+            <!-- Pequeno marcador decorativo com informacoes do tema. -->
+            <aside class="signal-card" aria-label="Painel de status">
+                <strong id="currentTime">00:00:00</strong>
+                <span id="currentDate">Hoje</span>
+            </aside>
 
-            <!-- Saldo atual -->
-            <div class="card">
-                <span class="number blue" id="balanceTotal">R$ 0,00</span>
-                <span class="label">Saldo</span>
+            <!-- Cabo em zig-zag das luzes. O SVG e decorativo e nao interfere no conteudo. -->
+            <svg class="light-wire" viewBox="0 0 1200 170" aria-hidden="true" preserveAspectRatio="none">
+                <polyline points="20,72 120,38 220,82 320,42 420,78 520,46 620,86 720,44 820,80 920,40 1040,78 1180,46" />
+            </svg>
+
+            <!-- Lampadas coloridas posicionadas nos pontos principais do zig-zag. -->
+            <div class="string-lights" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </section>
 
-        <!-- Área para cadastrar novo lançamento -->
-        <section class="expense-panel">
-            <form class="expense-form" id="transactionForm">
-                <!-- Descrição do lançamento -->
-                <div class="field field-full">
-                    <label for="description">Descrição</label>
-                    <input
-                        id="description"
-                        type="text"
-                        placeholder="Ex: mercado, salário, transporte..."
-                        autocomplete="off"
-                    >
-                </div>
+        <!-- Cards de resumo calculados dinamicamente pelo JavaScript. -->
+        <section class="summary-cards" aria-label="Resumo financeiro">
+            <article class="summary-card balance">
+                <span>Saldo Final</span>
+                <strong id="balanceTotal">R$ 0,00</strong>
+                <small>Resultado entre entradas e saídas.</small>
+            </article>
 
-                <!-- Valor do lançamento -->
-                <div class="field">
-                    <label for="amount">Valor</label>
-                    <input
-                        id="amount"
-                        type="number"
-                        min="0.01"
-                        step="0.01"
-                        placeholder="0,00"
-                    >
-                </div>
+            <article class="summary-card income">
+                <span>Total de Entradas</span>
+                <strong id="incomeTotal">R$ 0,00</strong>
+                <small>Valores recebidos ou adicionados.</small>
+            </article>
 
-                <!-- Tipo do lançamento -->
-                <div class="field">
-                    <label for="type">Tipo</label>
-                    <select id="type">
-                        <option value="despesa">Despesa</option>
-                        <option value="receita">Receita</option>
-                    </select>
-                </div>
-
-                <!-- Categoria do lançamento -->
-                <div class="field">
-                    <label for="category">Categoria</label>
-                    <select id="category">
-                        <option value="Alimentação">Alimentação</option>
-                        <option value="Moradia">Moradia</option>
-                        <option value="Transporte">Transporte</option>
-                        <option value="Estudos">Estudos</option>
-                        <option value="Lazer">Lazer</option>
-                        <option value="Trabalho">Trabalho</option>
-                        <option value="Saúde">Saúde</option>
-                        <option value="Outros">Outros</option>
-                    </select>
-                </div>
-
-                <!-- Data do lançamento -->
-                <div class="field">
-                    <label for="date">Data</label>
-                    <input id="date" type="date">
-                </div>
-
-                <!-- Botão de cadastro -->
-                <button class="btn-add btn-submit" type="submit">
-                    + Lançar
-                </button>
-            </form>
-
-            <p class="form-message" id="formMessage" aria-live="polite"></p>
+            <article class="summary-card expense">
+                <span>Total de Saídas</span>
+                <strong id="expenseTotal">R$ 0,00</strong>
+                <small>Gastos cadastrados no sistema.</small>
+            </article>
         </section>
 
-        <!-- Filtros de visualização dos lançamentos -->
-        <section class="toolbar">
-            <div class="filters">
-                <!-- Mostrar todos -->
-                <button class="filter active" data-filter="todos">
-                    Todos
-                </button>
+        <!-- Area principal com formulario e lista de movimentacoes. -->
+        <section class="workspace">
 
-                <!-- Mostrar apenas receitas -->
-                <button class="filter" data-filter="receitas">
-                    Receitas
-                </button>
+            <!-- Formulario usado para cadastrar e editar movimentacoes. -->
+            <section class="panel form-panel" aria-labelledby="formTitle">
+                <div class="panel-title">
+                    <div>
+                        <span id="formModeLabel">Registro</span>
+                        <h2 id="formTitle">Nova movimentação</h2>
+                    </div>
+                </div>
 
-                <!-- Mostrar apenas despesas -->
-                <button class="filter" data-filter="despesas">
-                    Despesas
-                </button>
-            </div>
+                <form class="money-form" id="transactionForm" novalidate>
+                    <!-- Campo de descricao da movimentacao. -->
+                    <div class="field field-full">
+                        <label for="description">Descrição</label>
+                        <input id="description" type="text" placeholder="Ex.: salário, mercado, transporte..."
+                            autocomplete="off">
+                    </div>
 
-            <!-- Botão para limpar dados salvos -->
-            <button class="btn-clear" id="clearAll" type="button">
-                Limpar tudo
-            </button>
+                    <!-- Campo numerico usado para informar o valor. -->
+                    <div class="field">
+                        <label for="amount">Valor</label>
+                        <input id="amount" type="number" min="0.01" step="0.01" placeholder="0,00">
+                    </div>
+
+                    <!-- Tipo define se o valor soma ou diminui do saldo. -->
+                    <div class="field">
+                        <label for="type">Tipo</label>
+                        <select id="type">
+                            <option value="despesa">Saída</option>
+                            <option value="receita">Entrada</option>
+                        </select>
+                    </div>
+
+                    <!-- Categoria ajuda a organizar e filtrar mentalmente os gastos. -->
+                    <div class="field">
+                        <label for="category">Categoria</label>
+                        <select id="category">
+                            <option value="Alimentação">Alimentação</option>
+                            <option value="Moradia">Moradia</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Estudos">Estudos</option>
+                            <option value="Lazer">Lazer</option>
+                            <option value="Trabalho">Trabalho</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <!-- Data deixa o historico mais organizado. -->
+                    <div class="field">
+                        <label for="date">Data</label>
+                        <input id="date" type="date">
+                    </div>
+
+                    <!-- Acoes do formulario. O botao de cancelar aparece apenas no modo de edicao. -->
+                    <div class="form-actions">
+                        <button class="btn-primary btn-submit" type="submit">Cadastrar movimentação</button>
+                        <button class="btn-secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button>
+                    </div>
+                </form>
+
+                <!-- Mensagem dinamica para validacoes e confirmacoes. -->
+                <p class="form-message" id="formMessage" aria-live="polite"></p>
+            </section>
+
+            <!-- Painel com filtros, busca e lista renderizada pelo JavaScript. -->
+            <section class="panel ledger-panel" aria-labelledby="listTitle">
+                <div class="panel-title panel-title-row">
+                    <div>
+                        <span id="transactionCount">0 itens</span>
+                        <h2 id="listTitle">Movimentações</h2>
+                    </div>
+
+                    <button class="btn-clear" id="clearAll" type="button">Limpar tudo</button>
+                </div>
+
+                <!-- Ferramentas para filtrar e buscar os lancamentos. -->
+                <div class="ledger-tools">
+                    <div class="filters" aria-label="Filtros de movimentações">
+                        <button class="filter active" data-filter="todos" type="button">Todos</button>
+                        <button class="filter" data-filter="receitas" type="button">Entradas</button>
+                        <button class="filter" data-filter="despesas" type="button">Saídas</button>
+                    </div>
+
+                    <label class="search-field" for="searchInput">
+                        <span>Busca</span>
+                        <input id="searchInput" type="search" placeholder="Buscar por descrição ou categoria..."
+                            autocomplete="off">
+                    </label>
+                </div>
+
+                <!-- Lista vazia no HTML; o JavaScript cria os itens dinamicamente. -->
+                <section class="transactions" id="transactionsList" aria-live="polite"></section>
+
+                <!-- Estado vazio mostrado quando nao existe resultado para o filtro atual. -->
+                <p class="empty-state" id="emptyState">Nenhuma movimentação encontrada.</p>
+            </section>
         </section>
-
-        <!-- Cabeçalho da lista -->
-        <section class="list-heading">
-            <h2>Lançamentos</h2>
-            <span id="transactionCount">0 itens</span>
-        </section>
-
-        <!-- Lista de lançamentos -->
-        <section class="tasks" id="transactionsList" aria-live="polite"></section>
-
-        <!-- Estado vazio -->
-        <p class="empty-state" id="emptyState">
-            Nenhum lançamento encontrado.
-        </p>
     </main>
 
-    <!-- Arquivo JavaScript -->
+    <!-- Arquivo responsavel pelas regras de cadastro, edicao, exclusao, filtros e totais. -->
     <script src="script.js"></script>
 </body>
+
 </html>

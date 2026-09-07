@@ -1,204 +1,434 @@
 /* ===================================
    RESET GERAL
+   Remove margens padrao e deixa o calculo de tamanho mais previsivel.
 =================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 0;
 }
 
 /* ===================================
-   PALETA DO PROJETO
+   VARIAVEIS VISUAIS
+   Guardam cores, sombras e medidas reutilizadas no projeto.
 =================================== */
 :root {
-    --pink: #f6b8c8;
-    --pink-soft: #fde7ee;
-
-    --blue: #9fc8f4;
-    --blue-soft: #e7f1fc;
-
-    --orange: #ffc892;
-    --orange-soft: #fff0df;
-
-    --mint: #9edfd3;
-    --mint-soft: #e4f7f3;
-
-    --lavender: #c8b8f4;
-    --lavender-soft: #eee9fc;
-
-    --background: #f7f8fc;
-    --surface: rgba(255, 255, 255, 0.82);
-    --surface-solid: #ffffff;
-
-    --text-primary: #303342;
-    --text-secondary: #727787;
-    --border: rgba(80, 86, 110, 0.10);
-
-    --shadow-sm: 0 6px 18px rgba(65, 70, 95, 0.08);
-    --shadow-md: 0 18px 45px rgba(65, 70, 95, 0.12);
+    --background: #06070a;
+    --wall: #20110f;
+    --panel: rgba(10, 12, 17, 0.9);
+    --panel-soft: rgba(255, 255, 255, 0.045);
+    --line: rgba(255, 45, 57, 0.36);
+    --line-soft: rgba(255, 255, 255, 0.11);
+    --text: #f7efe7;
+    --muted: #b9ada5;
+    --red: #ff2d39;
+    --red-dark: #7f121a;
+    --green: #35d85a;
+    --orange: #ffad2f;
+    --blue: #42a7ff;
+    --paper: #e8c798;
+    --shadow-red: 0 0 22px rgba(255, 45, 57, 0.28);
+    --shadow-soft: 0 22px 70px rgba(0, 0, 0, 0.42);
+    --radius: 8px;
 }
 
 /* ===================================
-   BODY
+   BASE DA PAGINA
+   Define fonte, cor e um fundo escuro com textura retrô.
 =================================== */
 body {
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 48px 20px;
-
-    color: var(--text-primary);
-
+    padding: 22px;
+    color: var(--text);
+    font-family: 'Inter', Arial, sans-serif;
     background:
-        radial-gradient(circle at 10% 10%, rgba(246, 184, 200, 0.55), transparent 28%),
-        radial-gradient(circle at 88% 14%, rgba(159, 200, 244, 0.52), transparent 30%),
-        radial-gradient(circle at 12% 88%, rgba(158, 223, 211, 0.45), transparent 30%),
-        radial-gradient(circle at 90% 88%, rgba(255, 200, 146, 0.48), transparent 28%),
+        radial-gradient(circle at 18% 0%, rgba(255, 45, 57, 0.24), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(66, 167, 255, 0.14), transparent 26%),
+        linear-gradient(180deg, rgba(255, 173, 47, 0.06), transparent 36%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 4px),
         var(--background);
+}
+
+/* Textura sutil de grade para dar profundidade sem atrapalhar a leitura. */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    background-size: 46px 46px;
+    opacity: 0.5;
+    mask-image: linear-gradient(180deg, black 0 70%, transparent);
+}
+
+/* Inputs e botoes herdam a fonte principal para manter unidade visual. */
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
 }
 
 /* ===================================
    CONTAINER PRINCIPAL
+   Centraliza a aplicacao e limita a largura em telas grandes.
 =================================== */
-.container {
-    width: 100%;
-    max-width: 780px;
-    padding: 32px;
-
-    background: var(--surface);
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    border-radius: 28px;
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
-    box-shadow: var(--shadow-md);
+.app {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, 100%);
+    margin: 0 auto;
 }
 
 /* ===================================
-   HEADER
+   HERO / PAINEL SUPERIOR
+   Cria a parede com textura e luzes em zig-zag.
 =================================== */
-.header {
-    text-align: center;
-    margin-bottom: 30px;
+.hero-board {
+    position: relative;
+    min-height: 270px;
+    overflow: hidden;
+    padding: 30px;
+    border: 1px solid rgba(255, 173, 47, 0.18);
+    border-radius: var(--radius);
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.5)),
+        repeating-linear-gradient(90deg, rgba(255, 211, 138, 0.08) 0 1px, transparent 1px 76px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 38px),
+        linear-gradient(135deg, #301715, #130c0d 55%, #09090d);
+    box-shadow: var(--shadow-soft), inset 0 0 70px rgba(0, 0, 0, 0.52);
 }
 
-.header h1 {
-    font-size: clamp(28px, 5vw, 38px);
-    line-height: 1.1;
-    color: var(--text-primary);
-    letter-spacing: -1.5px;
-}
-
-.header h1::after {
+/* Vinheta interna para deixar o topo com clima de luz baixa. */
+.hero-board::after {
     content: '';
-    display: block;
-    width: 54px;
-    height: 6px;
-    margin: 12px auto 0;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--pink), var(--orange), var(--mint), var(--blue));
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, rgba(255, 45, 57, 0.12), transparent 34%),
+        radial-gradient(circle at 68% 30%, rgba(255, 173, 47, 0.12), transparent 26%),
+        radial-gradient(circle at 90% 80%, rgba(53, 216, 90, 0.1), transparent 22%);
 }
 
-.header p {
-    max-width: 560px;
-    margin: 14px auto 0;
-    color: var(--text-secondary);
-    font-size: 14px;
-    line-height: 1.65;
+/* Texto da marca do projeto. */
+.hero-copy {
+    position: relative;
+    z-index: 4;
+    max-width: 570px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 10px;
+    color: var(--paper);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 173, 47, 0.24);
+    border-radius: var(--radius);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.hero-copy h1 {
+    margin-top: 12px;
+    color: var(--red);
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: clamp(2.7rem, 8vw, 5.4rem);
+    font-weight: 900;
+    line-height: 0.92;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 8px rgba(255, 45, 57, 0.8),
+        0 0 24px rgba(255, 45, 57, 0.5),
+        0 0 46px rgba(255, 45, 57, 0.3);
+}
+
+.hero-copy p {
+    max-width: 520px;
+    margin-top: 14px;
+    color: rgba(247, 239, 231, 0.82);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Cartao de status decorativo no canto direito. */
+.signal-card {
+    position: absolute;
+    z-index: 4;
+    top: 30px;
+    right: 30px;
+    width: 178px;
+    padding: 14px;
+    text-align: right;
+    background: rgba(5, 6, 9, 0.78);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-red);
+}
+
+.signal-card strong {
+    display: block;
+    color: var(--red);
+    font-size: 1.65rem;
+    font-weight: 900;
+}
+
+.signal-card span {
+    display: block;
+    margin-top: 3px;
+    color: var(--paper);
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* Cabo preto em zig-zag feito com SVG. */
+.light-wire {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    top: 86px;
+    width: 100%;
+    height: 150px;
+    filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.65));
+}
+
+.light-wire polyline {
+    fill: none;
+    stroke: #020203;
+    stroke-width: 9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Area que segura todas as lampadas. */
+.string-lights {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Aparencia de cada lampada colorida. */
+.string-lights span {
+    position: absolute;
+    width: 18px;
+    height: 31px;
+    border-radius: 10px 10px 14px 14px;
+    background: var(--red);
+    box-shadow:
+        0 0 14px rgba(255, 45, 57, 0.9),
+        0 0 30px rgba(255, 45, 57, 0.58),
+        0 0 58px rgba(255, 45, 57, 0.3);
+    animation: blink 2.8s ease-in-out infinite;
+}
+
+/* Soquete escuro acima de cada lampada. */
+.string-lights span::before {
+    content: '';
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%);
+    background: #15161b;
+    border-radius: 3px;
+}
+
+/* Posicionamento das lampadas no mesmo ritmo do cabo. */
+.string-lights span:nth-child(1) { left: 1.4%; top: 144px; }
+.string-lights span:nth-child(2) { left: 9.2%; top: 105px; }
+.string-lights span:nth-child(3) { left: 17.4%; top: 150px; }
+.string-lights span:nth-child(4) { left: 25.8%; top: 108px; }
+.string-lights span:nth-child(5) { left: 34.2%; top: 146px; }
+.string-lights span:nth-child(6) { left: 42.5%; top: 112px; }
+.string-lights span:nth-child(7) { left: 50.8%; top: 154px; }
+.string-lights span:nth-child(8) { left: 59.2%; top: 110px; }
+.string-lights span:nth-child(9) { left: 67.6%; top: 148px; }
+.string-lights span:nth-child(10) { left: 76.4%; top: 108px; }
+.string-lights span:nth-child(11) { left: 86.2%; top: 145px; }
+.string-lights span:nth-child(12) { left: 97%; top: 114px; }
+
+/* Alternancia de cores das luzes. */
+.string-lights span:nth-child(2),
+.string-lights span:nth-child(6),
+.string-lights span:nth-child(10) {
+    background: var(--blue);
+    box-shadow:
+        0 0 14px rgba(66, 167, 255, 0.9),
+        0 0 30px rgba(66, 167, 255, 0.58),
+        0 0 58px rgba(66, 167, 255, 0.3);
+    animation-delay: 0.3s;
+}
+
+.string-lights span:nth-child(3),
+.string-lights span:nth-child(7),
+.string-lights span:nth-child(11) {
+    background: var(--green);
+    box-shadow:
+        0 0 14px rgba(53, 216, 90, 0.9),
+        0 0 30px rgba(53, 216, 90, 0.58),
+        0 0 58px rgba(53, 216, 90, 0.3);
+    animation-delay: 0.65s;
+}
+
+.string-lights span:nth-child(4),
+.string-lights span:nth-child(8),
+.string-lights span:nth-child(12) {
+    background: var(--orange);
+    box-shadow:
+        0 0 14px rgba(255, 173, 47, 0.9),
+        0 0 30px rgba(255, 173, 47, 0.58),
+        0 0 58px rgba(255, 173, 47, 0.3);
+    animation-delay: 0.95s;
 }
 
 /* ===================================
    CARDS DE RESUMO
+   Mostram os valores calculados com reduce() no JavaScript.
 =================================== */
-.stats {
+.summary-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
-    margin-bottom: 26px;
+    margin-top: 14px;
 }
 
-.card {
-    min-width: 0;
-    padding: 22px 16px;
-    text-align: center;
-
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    box-shadow: var(--shadow-sm);
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+.summary-card {
+    position: relative;
+    min-height: 132px;
+    overflow: hidden;
+    padding: 20px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent),
+        var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft), inset 0 0 30px rgba(255, 45, 57, 0.04);
 }
 
-.card:nth-child(1) {
-    background: linear-gradient(145deg, var(--mint-soft), #f4fcfa);
+/* Brilho lateral de cada card. */
+.summary-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: currentColor;
+    opacity: 0.95;
+    box-shadow: 0 0 18px currentColor;
 }
 
-.card:nth-child(2) {
-    background: linear-gradient(145deg, var(--orange-soft), #fff9f2);
-}
+.summary-card.balance { color: var(--blue); }
+.summary-card.income { color: var(--green); }
+.summary-card.expense { color: var(--orange); }
 
-.card:nth-child(3) {
-    background: linear-gradient(145deg, var(--blue-soft), #f6faff);
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 28px rgba(65, 70, 95, 0.12);
-}
-
-.number {
+.summary-card span {
     display: block;
-    font-size: clamp(20px, 4vw, 28px);
-    line-height: 1.15;
-    font-weight: 700;
-    color: #d4768f;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.summary-card strong {
+    display: block;
+    max-width: 100%;
+    margin-top: 12px;
+    color: currentColor;
+    font-size: clamp(1.85rem, 4vw, 2.65rem);
+    font-weight: 900;
+    line-height: 1.05;
     overflow-wrap: anywhere;
 }
 
-.number.blue {
-    color: #5f96d3;
-}
-
-.number.green {
-    color: #4da999;
-}
-
-.number.orange {
-    color: #c6813f;
-}
-
-.label {
+.summary-card small {
     display: block;
-    margin-top: 9px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
+    margin-top: 11px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+#balanceTotal.positive {
+    color: var(--green);
+}
+
+#balanceTotal.negative {
+    color: var(--red);
 }
 
 /* ===================================
-   FORMULÁRIO DE LANÇAMENTO
+   AREA DE TRABALHO
+   Divide formulario e lista em duas colunas no desktop.
 =================================== */
-.expense-panel {
-    padding: 8px;
-    margin-bottom: 18px;
-
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    box-shadow: var(--shadow-sm);
+.workspace {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    margin-top: 14px;
 }
 
-.expense-form {
+.panel {
+    padding: 20px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent),
+        var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft), inset 0 0 28px rgba(255, 45, 57, 0.035);
+}
+
+.panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.panel-title-row {
+    align-items: center;
+}
+
+.panel-title span {
+    display: block;
+    color: var(--orange);
+    font-size: 0.76rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.panel-title h2 {
+    margin-top: 4px;
+    color: var(--text);
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 1.35rem;
+    font-weight: 900;
+    line-height: 1.15;
+    text-transform: none;
+    text-shadow: none;
+}
+
+/* ===================================
+   FORMULARIO
+   Campos para cadastrar ou editar uma movimentacao.
+=================================== */
+.money-form {
     display: grid;
-    grid-template-columns: 1.2fr 0.75fr 0.8fr;
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
 .field {
@@ -209,217 +439,251 @@ body {
     grid-column: 1 / -1;
 }
 
-.field label {
+.field label,
+.search-field span {
     display: block;
-    margin: 0 0 6px 5px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 700;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
 }
 
 .field input,
-.field select {
+.field select,
+.search-field input {
     width: 100%;
-    min-height: 47px;
-    padding: 12px 14px;
-
-    border: 2px solid transparent;
-    border-radius: 13px;
+    min-height: 46px;
+    padding: 11px 12px;
+    color: var(--text);
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
     outline: none;
-
-    background: transparent;
-    color: var(--text-primary);
-    font-size: 14px;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
+    font-size: 0.92rem;
 }
 
-.field input::placeholder {
-    color: #a3a7b4;
+.field input::placeholder,
+.search-field input::placeholder {
+    color: rgba(247, 239, 231, 0.42);
 }
 
 .field input:focus,
-.field select:focus {
-    background: var(--surface-solid);
-    border-color: rgba(159, 200, 244, 0.9);
+.field select:focus,
+.search-field input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(255, 45, 57, 0.16);
 }
 
-.btn-add {
-    min-height: 47px;
-    padding: 13px 20px;
-    align-self: end;
+.form-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+}
 
-    border: none;
-    border-radius: 13px;
-
-    background: linear-gradient(135deg, #89c4f4, #9edfd3);
-    color: #27414c;
-
-    font-weight: 700;
-    cursor: pointer;
-
-    box-shadow: 0 7px 16px rgba(91, 164, 176, 0.18);
-
+.btn-primary,
+.btn-secondary,
+.btn-clear,
+.filter,
+.btn-edit,
+.btn-remove {
+    border-radius: var(--radius);
+    font-weight: 900;
+    text-transform: uppercase;
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        filter 0.2s ease;
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
 }
 
-.btn-add:hover {
-    transform: translateY(-2px);
-    filter: saturate(1.08);
-    box-shadow: 0 10px 20px rgba(91, 164, 176, 0.24);
+.btn-primary {
+    min-height: 48px;
+    color: var(--text);
+    background: rgba(255, 45, 57, 0.1);
+    border: 1px solid rgba(255, 45, 57, 0.38);
+    box-shadow:
+        0 0 12px rgba(255, 45, 57, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.btn-add:active {
-    transform: translateY(0);
+.btn-primary:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 45, 57, 0.16);
+    border-color: rgba(255, 45, 57, 0.58);
+    box-shadow: 0 0 18px rgba(255, 45, 57, 0.2);
+}
+
+.btn-secondary {
+    min-height: 42px;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line-soft);
+}
+
+.btn-secondary:hover {
+    border-color: var(--orange);
+    background: rgba(255, 173, 47, 0.12);
 }
 
 .form-message {
     min-height: 20px;
-    margin-top: 8px;
-    padding-left: 6px;
-    color: #9b6738;
-    font-size: 12px;
-    font-weight: 600;
+    margin-top: 14px;
+    color: var(--orange);
+    font-size: 0.85rem;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.form-message[data-type="success"] {
+    color: var(--green);
+}
+
+.form-message[data-type="error"] {
+    color: var(--red);
+}
+
+/* Destaque discreto quando o formulario entra no modo de edicao. */
+.money-form.editing {
+    padding: 12px;
+    margin: -12px;
+    background: rgba(255, 173, 47, 0.055);
+    border: 1px solid rgba(255, 173, 47, 0.18);
+    border-radius: var(--radius);
 }
 
 /* ===================================
-   FILTROS E AÇÕES
+   FILTROS E BUSCA
+   Permitem visualizar todos, entradas, saidas e pesquisar por texto.
 =================================== */
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.ledger-tools {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(220px, 0.78fr);
     gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 22px;
+    align-items: end;
+    margin-bottom: 16px;
 }
 
 .filters {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
-    flex-wrap: wrap;
 }
 
-.filter,
-.btn-clear {
-    padding: 9px 15px;
-
-    border: 1px solid var(--border);
-    border-radius: 999px;
-
-    background: rgba(255, 255, 255, 0.68);
-    color: var(--text-secondary);
-
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+.filter {
+    min-height: 44px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid var(--line-soft);
+    font-size: 0.8rem;
 }
 
 .filter:hover,
-.btn-clear:hover {
-    transform: translateY(-2px);
-    background: var(--orange-soft);
-    border-color: rgba(255, 200, 146, 0.7);
-    color: #9b6738;
-}
-
 .filter.active {
-    background: var(--lavender-soft);
-    border-color: rgba(200, 184, 244, 0.8);
-    color: #6656a8;
-    box-shadow: 0 5px 14px rgba(115, 92, 180, 0.09);
+    color: var(--red);
+    background: rgba(255, 45, 57, 0.09);
+    border-color: var(--line);
+    box-shadow: 0 0 16px rgba(255, 45, 57, 0.17);
+}
+
+.btn-clear {
+    min-height: 38px;
+    padding: 8px 12px;
+    color: var(--red);
+    background: transparent;
+    border: 1px solid var(--line);
+    font-size: 0.78rem;
+}
+
+.btn-clear:hover {
+    background: rgba(255, 45, 57, 0.1);
+    box-shadow: 0 0 16px rgba(255, 45, 57, 0.12);
 }
 
 /* ===================================
-   CABEÇALHO DA LISTA
+   LISTA DE MOVIMENTACOES
+   Cada item e criado dinamicamente pelo JavaScript.
 =================================== */
-.list-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.list-heading h2 {
-    color: var(--text-primary);
-    font-size: 17px;
-    line-height: 1.2;
-}
-
-.list-heading span {
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-}
-
-/* ===================================
-   LISTA DE LANÇAMENTOS
-=================================== */
-.tasks {
+.transactions {
     display: flex;
     flex-direction: column;
-    gap: 11px;
+    gap: 9px;
 }
 
 .transaction {
     position: relative;
-
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: 26px minmax(0, 1fr) auto auto;
     align-items: center;
-    gap: 13px;
-
-    padding: 16px 18px;
-
-    background: rgba(255, 255, 255, 0.78);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-
-    box-shadow: 0 5px 16px rgba(65, 70, 95, 0.055);
-
+    gap: 12px;
+    min-height: 68px;
+    padding: 12px;
     overflow: hidden;
+    background: var(--panel-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+}
 
-    transition:
-        transform 0.22s ease,
-        box-shadow 0.22s ease,
-        border-color 0.22s ease,
-        background 0.22s ease;
+.transaction:hover {
+    border-color: rgba(255, 45, 57, 0.38);
+    box-shadow: 0 0 18px rgba(255, 45, 57, 0.12);
 }
 
 .transaction::before {
     content: '';
     position: absolute;
-    inset: 0 auto 0 0;
-    width: 5px;
-    border-radius: 16px 0 0 16px;
+    inset: 10px auto 10px 0;
+    width: 4px;
+    background: var(--orange);
+    box-shadow: 0 0 16px var(--orange);
 }
 
 .transaction.income::before {
-    background: linear-gradient(180deg, var(--mint), var(--blue));
+    background: var(--green);
+    box-shadow: 0 0 16px var(--green);
 }
 
 .transaction.expense::before {
-    background: linear-gradient(180deg, var(--pink), var(--orange));
+    background: var(--orange);
+    box-shadow: 0 0 16px var(--orange);
 }
 
-.transaction:hover {
-    transform: translateX(4px);
-    border-color: rgba(159, 200, 244, 0.42);
-    box-shadow: 0 9px 22px rgba(65, 70, 95, 0.09);
+.transaction.checked {
+    opacity: 0.7;
+}
+
+/* Checkbox personalizado para marcar a movimentacao como conferida. */
+.transaction-check {
+    appearance: none;
+    display: grid;
+    place-content: center;
+    width: 22px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.transaction-check::before {
+    content: '';
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid #031106;
+    border-bottom: 2px solid #031106;
+    transform: rotate(-45deg) scale(0);
+    transition: transform 0.16s ease;
+}
+
+.transaction-check:checked {
+    background: var(--green);
+    border-color: var(--green);
+    box-shadow: 0 0 14px rgba(53, 216, 90, 0.45);
+}
+
+.transaction-check:checked::before {
+    transform: rotate(-45deg) scale(1);
 }
 
 .transaction-info {
@@ -428,155 +692,238 @@ body {
 
 .transaction-title {
     display: block;
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.45;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.35;
     overflow-wrap: anywhere;
 }
 
 .transaction-meta {
     display: block;
     margin-top: 4px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    line-height: 1.45;
+    color: var(--muted);
+    font-size: 0.8rem;
 }
 
 .transaction-amount {
+    min-width: 118px;
+    color: var(--orange);
+    text-align: right;
     white-space: nowrap;
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 0.94rem;
+    font-weight: 900;
 }
 
 .transaction-amount.income {
-    color: #4da999;
+    color: var(--green);
 }
 
 .transaction-amount.expense {
-    color: #c6813f;
+    color: var(--orange);
+}
+
+.transaction-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.btn-edit,
+.btn-remove {
+    min-width: 38px;
+    min-height: 34px;
+    padding: 7px 9px;
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid var(--line-soft);
+    font-size: 0.72rem;
+}
+
+.btn-edit {
+    color: var(--blue);
+}
+
+.btn-edit:hover {
+    border-color: var(--blue);
+    background: rgba(66, 167, 255, 0.1);
 }
 
 .btn-remove {
-    width: 34px;
-    height: 34px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.72);
-    color: #b36b7f;
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: 700;
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        color 0.2s ease;
+    color: var(--red);
 }
 
 .btn-remove:hover {
-    transform: scale(1.06);
-    background: var(--pink-soft);
-    color: #9a5068;
+    border-color: var(--red);
+    background: rgba(255, 45, 57, 0.1);
 }
 
+.transaction.checked .transaction-title,
+.transaction.checked .transaction-meta,
+.transaction.checked .transaction-amount {
+    color: rgba(247, 239, 231, 0.48);
+    text-decoration: line-through;
+}
+
+/* Texto usado quando nao existem itens para mostrar. */
 .empty-state {
     display: none;
+    margin-top: 10px;
     padding: 18px;
-    margin-top: 11px;
-
-    color: var(--text-secondary);
+    color: var(--muted);
+    border: 1px dashed var(--line-soft);
+    border-radius: var(--radius);
     text-align: center;
-    font-size: 13px;
-    line-height: 1.5;
-
-    background: rgba(255, 255, 255, 0.58);
-    border: 1px dashed rgba(80, 86, 110, 0.16);
-    border-radius: 16px;
+    font-size: 0.92rem;
 }
 
 .empty-state.show {
     display: block;
 }
 
-/* ===================================
-   ACESSIBILIDADE
-=================================== */
+/* Estado de foco para melhorar acessibilidade no teclado. */
 button:focus-visible,
 input:focus-visible,
 select:focus-visible {
-    outline: 3px solid rgba(159, 200, 244, 0.45);
+    outline: 3px solid rgba(255, 45, 57, 0.25);
     outline-offset: 2px;
+}
+
+/* Animacao das luzes piscando. */
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 0.62;
+        transform: scale(0.96);
+    }
+
+    42% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+
+    70% {
+        opacity: 0.78;
+        transform: scale(1);
+    }
 }
 
 /* ===================================
    RESPONSIVIDADE
+   Ajusta o layout para tablets e celulares.
 =================================== */
-@media (max-width: 720px) {
-    .expense-form {
-        grid-template-columns: 1fr 1fr;
+@media (max-width: 980px) {
+    .summary-cards,
+    .workspace,
+    .ledger-tools {
+        grid-template-columns: 1fr;
     }
 
-    .btn-submit {
-        grid-column: 1 / -1;
-        width: 100%;
+    .signal-card {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 18px;
     }
+
+    .hero-board {
+        min-height: 340px;
+    }
+
+    .light-wire {
+        top: 122px;
+    }
+
+    .string-lights span:nth-child(1) { top: 180px; }
+    .string-lights span:nth-child(2) { top: 141px; }
+    .string-lights span:nth-child(3) { top: 186px; }
+    .string-lights span:nth-child(4) { top: 144px; }
+    .string-lights span:nth-child(5) { top: 182px; }
+    .string-lights span:nth-child(6) { top: 148px; }
+    .string-lights span:nth-child(7) { top: 190px; }
+    .string-lights span:nth-child(8) { top: 146px; }
+    .string-lights span:nth-child(9) { top: 184px; }
+    .string-lights span:nth-child(10) { top: 144px; }
+    .string-lights span:nth-child(11) { top: 181px; }
+    .string-lights span:nth-child(12) { top: 150px; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     body {
-        padding: 24px 12px;
+        padding: 14px;
     }
 
-    .container {
-        padding: 22px 16px;
-        border-radius: 22px;
+    .hero-board,
+    .panel,
+    .summary-card {
+        padding: 16px;
     }
 
-    .stats {
+    .hero-board {
+        min-height: 330px;
+    }
+
+    .hero-copy p {
+        font-size: 0.95rem;
+    }
+
+    .signal-card {
+        width: 150px;
+    }
+
+    .light-wire {
+        top: 166px;
+        height: 130px;
+    }
+
+    .string-lights span {
+        width: 15px;
+        height: 26px;
+    }
+
+    .string-lights span:nth-child(1) { left: 3%; top: 218px; }
+    .string-lights span:nth-child(2) { left: 11%; top: 190px; }
+    .string-lights span:nth-child(3) { left: 19%; top: 222px; }
+    .string-lights span:nth-child(4) { left: 27%; top: 192px; }
+    .string-lights span:nth-child(5) { left: 35%; top: 220px; }
+    .string-lights span:nth-child(6) { left: 43%; top: 194px; }
+    .string-lights span:nth-child(7) { left: 51%; top: 224px; }
+    .string-lights span:nth-child(8) { left: 59%; top: 194px; }
+    .string-lights span:nth-child(9) { left: 67%; top: 220px; }
+    .string-lights span:nth-child(10) { left: 75%; top: 192px; }
+    .string-lights span:nth-child(11) { left: 84%; top: 218px; }
+    .string-lights span:nth-child(12) { left: 94%; top: 196px; }
+
+    .money-form,
+    .filters {
         grid-template-columns: 1fr;
     }
 
-    .card {
-        padding: 18px;
-    }
-
-    .expense-form {
-        grid-template-columns: 1fr;
-    }
-
-    .toolbar,
-    .list-heading {
-        align-items: stretch;
+    .panel-title-row {
+        align-items: flex-start;
         flex-direction: column;
     }
 
-    .filters {
-        justify-content: center;
-    }
-
-    .btn-clear {
-        width: 100%;
-    }
-
     .transaction {
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns: 26px minmax(0, 1fr);
+        align-items: start;
+    }
+
+    .transaction-amount,
+    .transaction-actions {
+        grid-column: 2 / 3;
     }
 
     .transaction-amount {
-        grid-column: 1 / 2;
-    }
-
-    .btn-remove {
-        grid-row: 1 / 3;
-        grid-column: 2 / 3;
+        min-width: 0;
+        text-align: left;
     }
 }
 
+/* Remove movimento para usuarios que preferem menos animacoes. */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
+        animation-duration: 0.01ms !important;
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
