@@ -1,6 +1,13 @@
 /* ===================================
+   CONTROLE DE GASTOS - CSS
+   Este arquivo cuida apenas da parte visual.
+   O HTML cria a estrutura, o JavaScript cria as regras,
+   e o CSS define aparência, responsividade e animações.
+=================================== */
+
+/* ===================================
    RESET GERAL
-   Remove margens padrao e deixa o calculo de tamanho mais previsivel.
+   Remove margens padrão e deixa o cálculo de tamanho mais previsível.
 =================================== */
 * {
     margin: 0;

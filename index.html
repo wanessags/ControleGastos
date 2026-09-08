@@ -2,15 +2,15 @@
 <html lang="pt-BR">
 
 <head>
-    <!-- Configuracoes basicas da pagina e suporte para responsividade. -->
+    <!-- Configurações básicas da página: acentuação correta e adaptação para celular. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Conexao antecipada com o Google Fonts para melhorar o carregamento das fontes. -->
+    <!-- Conexão antecipada com o Google Fonts para melhorar o carregamento das fontes. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Fontes escolhidas para misturar clima retrô no titulo e boa leitura no restante da interface. -->
+    <!-- Fontes escolhidas: Cinzel no título principal e Inter nos textos da interface. -->
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -18,36 +18,36 @@
     <!-- Arquivo principal de estilos. -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Titulo exibido na aba do navegador. -->
+    <!-- Título exibido na aba do navegador. -->
     <title>Hawkins Finance | Controle de Gastos</title>
 </head>
 
 <body>
-    <!-- Conteudo principal da aplicacao. -->
+    <!-- Conteúdo principal da aplicação. Tudo que o usuário vê fica dentro da tag main. -->
     <main class="app">
 
-        <!-- Topo visual inspirado em uma parede retrô com luzes. -->
+        <!-- Topo visual do projeto. Ele cria a identidade da aplicação antes dos dados financeiros. -->
         <section class="hero-board" aria-labelledby="appTitle">
 
-            <!-- Texto principal da identidade do projeto. -->
+            <!-- Texto principal da identidade do projeto. O id appTitle conecta este título ao aria-labelledby da section. -->
             <div class="hero-copy">
                 <span class="eyebrow">Controle pessoal</span>
                 <h1 id="appTitle">Hawkins Finance</h1>
                 <p>Registre entradas e saídas, acompanhe o saldo e descubra para onde seu dinheiro está indo.</p>
             </div>
 
-            <!-- Pequeno marcador decorativo com informacoes do tema. -->
+            <!-- Relógio dinâmico. O JavaScript atualiza currentTime e currentDate a cada segundo. -->
             <aside class="signal-card" aria-label="Painel de status">
                 <strong id="currentTime">00:00:00</strong>
                 <span id="currentDate">Hoje</span>
             </aside>
 
-            <!-- Cabo em zig-zag das luzes. O SVG e decorativo e nao interfere no conteudo. -->
+            <!-- Cabo em zig-zag das luzes. O SVG é decorativo e não interfere no conteúdo. -->
             <svg class="light-wire" viewBox="0 0 1200 170" aria-hidden="true" preserveAspectRatio="none">
                 <polyline points="20,72 120,38 220,82 320,42 420,78 520,46 620,86 720,44 820,80 920,40 1040,78 1180,46" />
             </svg>
 
-            <!-- Lampadas coloridas posicionadas nos pontos principais do zig-zag. -->
+            <!-- Lâmpadas coloridas. Cada span vira uma lâmpada pelo CSS. -->
             <div class="string-lights" aria-hidden="true">
                 <span></span>
                 <span></span>
@@ -64,7 +64,7 @@
             </div>
         </section>
 
-        <!-- Cards de resumo calculados dinamicamente pelo JavaScript. -->
+        <!-- Cards de resumo. Os valores começam zerados e são preenchidos pela função updateSummary(). -->
         <section class="summary-cards" aria-label="Resumo financeiro">
             <article class="summary-card balance">
                 <span>Saldo Final</span>
@@ -85,10 +85,10 @@
             </article>
         </section>
 
-        <!-- Area principal com formulario e lista de movimentacoes. -->
+        <!-- Área principal: formulário de cadastro/edição à esquerda e lista de movimentações à direita. -->
         <section class="workspace">
 
-            <!-- Formulario usado para cadastrar e editar movimentacoes. -->
+            <!-- Formulário usado tanto para cadastrar quanto para editar movimentações. -->
             <section class="panel form-panel" aria-labelledby="formTitle">
                 <div class="panel-title">
                     <div>
@@ -98,20 +98,20 @@
                 </div>
 
                 <form class="money-form" id="transactionForm" novalidate>
-                    <!-- Campo de descricao da movimentacao. -->
+                    <!-- Campo de descrição. O JavaScript lê este valor em descriptionInput. -->
                     <div class="field field-full">
                         <label for="description">Descrição</label>
                         <input id="description" type="text" placeholder="Ex.: salário, mercado, transporte..."
                             autocomplete="off">
                     </div>
 
-                    <!-- Campo numerico usado para informar o valor. -->
+                    <!-- Campo numérico usado para informar o valor. O JavaScript converte este valor com Number(). -->
                     <div class="field">
                         <label for="amount">Valor</label>
                         <input id="amount" type="number" min="0.01" step="0.01" placeholder="0,00">
                     </div>
 
-                    <!-- Tipo define se o valor soma ou diminui do saldo. -->
+                    <!-- Tipo define se o valor soma no saldo como entrada ou diminui como saída. -->
                     <div class="field">
                         <label for="type">Tipo</label>
                         <select id="type">
@@ -120,7 +120,7 @@
                         </select>
                     </div>
 
-                    <!-- Categoria ajuda a organizar e filtrar mentalmente os gastos. -->
+                    <!-- Categoria ajuda a organizar os lançamentos e também entra na busca. -->
                     <div class="field">
                         <label for="category">Categoria</label>
                         <select id="category">
@@ -135,24 +135,24 @@
                         </select>
                     </div>
 
-                    <!-- Data deixa o historico mais organizado. -->
+                    <!-- Data deixa o histórico organizado e permite ordenar os itens mais recentes primeiro. -->
                     <div class="field">
                         <label for="date">Data</label>
                         <input id="date" type="date">
                     </div>
 
-                    <!-- Acoes do formulario. O botao de cancelar aparece apenas no modo de edicao. -->
+                    <!-- Ações do formulário. O botão de cancelar aparece apenas no modo de edição. -->
                     <div class="form-actions">
                         <button class="btn-primary btn-submit" type="submit">Cadastrar movimentação</button>
                         <button class="btn-secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button>
                     </div>
                 </form>
 
-                <!-- Mensagem dinamica para validacoes e confirmacoes. -->
+                <!-- Mensagem dinâmica para validações, erros e confirmações. -->
                 <p class="form-message" id="formMessage" aria-live="polite"></p>
             </section>
 
-            <!-- Painel com filtros, busca e lista renderizada pelo JavaScript. -->
+            <!-- Painel com filtros, busca e lista. A lista é criada dinamicamente pelo JavaScript. -->
             <section class="panel ledger-panel" aria-labelledby="listTitle">
                 <div class="panel-title panel-title-row">
                     <div>
@@ -163,7 +163,7 @@
                     <button class="btn-clear" id="clearAll" type="button">Limpar tudo</button>
                 </div>
 
-                <!-- Ferramentas para filtrar e buscar os lancamentos. -->
+                <!-- Ferramentas para filtrar e buscar os lançamentos. -->
                 <div class="ledger-tools">
                     <div class="filters" aria-label="Filtros de movimentações">
                         <button class="filter active" data-filter="todos" type="button">Todos</button>
@@ -178,16 +178,16 @@
                     </label>
                 </div>
 
-                <!-- Lista vazia no HTML; o JavaScript cria os itens dinamicamente. -->
+                <!-- Lista vazia no HTML. A função renderTransactions() cria os itens dentro dela. -->
                 <section class="transactions" id="transactionsList" aria-live="polite"></section>
 
-                <!-- Estado vazio mostrado quando nao existe resultado para o filtro atual. -->
+                <!-- Estado vazio mostrado quando não existe resultado para o filtro ou busca atual. -->
                 <p class="empty-state" id="emptyState">Nenhuma movimentação encontrada.</p>
             </section>
         </section>
     </main>
 
-    <!-- Arquivo responsavel pelas regras de cadastro, edicao, exclusao, filtros e totais. -->
+    <!-- Arquivo responsável pelas regras de cadastro, edição, exclusão, filtros, busca, totais e localStorage. -->
     <script src="script.js"></script>
 </body>
 
